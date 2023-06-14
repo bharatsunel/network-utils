@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 
-object NetworkUtils : NetworkConnector, InternetConnector {
+object NetworkUtils : NetworkCapability, InternetReachability {
 
     private fun getNetworkCapabilities(context: Context): NetworkCapabilities? {
         val connectivityManager = context.getSystemService(ConnectivityManager::class.java)
@@ -12,7 +12,7 @@ object NetworkUtils : NetworkConnector, InternetConnector {
         return connectivityManager.getNetworkCapabilities(currentNetwork)
     }
 
-    override fun hasAnyNetwork(context: Context): Boolean {
+    override fun hasAnyNetworkCapability(context: Context): Boolean {
         val caps = getNetworkCapabilities(context) ?: return false
         return when {
             caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
@@ -22,21 +22,21 @@ object NetworkUtils : NetworkConnector, InternetConnector {
         }
     }
 
-    override fun hasWifi(context: Context): Boolean {
+    override fun hasWifiCapability(context: Context): Boolean {
         getNetworkCapabilities(context)?.let {
             return it.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
         }
         return false
     }
 
-    override fun hasCellular(context: Context): Boolean {
+    override fun hasCellularCapability(context: Context): Boolean {
         getNetworkCapabilities(context)?.let {
             return it.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
         }
         return false
     }
 
-    override fun hasEthernet(context: Context): Boolean {
+    override fun hasEthernetCapability(context: Context): Boolean {
         getNetworkCapabilities(context)?.let {
             return it.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
         }
@@ -44,17 +44,17 @@ object NetworkUtils : NetworkConnector, InternetConnector {
     }
 
     override fun hasInternet(context: Context): Boolean {
-        if (!hasAnyNetwork(context)) return false
+        if (!hasAnyNetworkCapability(context)) return false
         TODO("Not yet implemented")
     }
 
     override fun hasInternetOverWifi(context: Context): Boolean {
-        if (!hasWifi(context)) return false
+        if (!hasWifiCapability(context)) return false
         TODO("Not yet implemented")
     }
 
     override fun hasInternetOverEthernet(context: Context): Boolean {
-        if (!hasEthernet(context)) return false
+        if (!hasEthernetCapability(context)) return false
         TODO("Not yet implemented")
     }
 

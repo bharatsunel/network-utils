@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     MainContent("there") {
-                        Log.d("MainActivity", "Has Wifi: ${NetworkUtils.hasWifi(this@MainActivity)}")
+                        Log.d("MainActivity", "Has Wifi: ${NetworkUtils.hasWifiCapability(this@MainActivity)}")
                     }
                 }
             }
