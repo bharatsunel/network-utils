@@ -1,4 +1,4 @@
-package com.bharatsunel.network_utils
+package com.bharatsunel.networkutils
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

@@ -1,4 +1,4 @@
-package com.bharatsunel.network_utils
+package com.bharatsunel.networkutils
 
 import org.junit.Test
 
