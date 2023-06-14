@@ -1,6 +1,7 @@
 package com.bharatsunel.networkutils
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
@@ -28,7 +29,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("there")
+                    MainContent("there") {
+                       // Log.d("MainActivity", "Has Wifi: ${NetworkUtils.hasWifi(this@MainActivity)}")
+                    }
                 }
             }
         }
@@ -36,7 +39,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun MainContent(name: String, modifier: Modifier = Modifier, callback: () -> Unit) {
     Box(modifier = modifier) {
         Column(
             modifier = modifier
@@ -50,7 +53,9 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
                     .padding(all = 16.dp)
             )
             OutlinedButton(
-                onClick = { }
+                onClick = {
+                    callback()
+                }
             ) {
                 Text(text = "Check Network Connectivity")
             }
@@ -64,6 +69,8 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     NetworkUtilsTheme {
-        Greeting("Android")
+        MainContent("Android") {
+
+        }
     }
 }

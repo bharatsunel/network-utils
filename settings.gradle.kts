@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "NetworkUtils"
 include(":app")
-include(":app:networkutils")
+include(":network-utils")
