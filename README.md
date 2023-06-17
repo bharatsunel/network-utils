@@ -65,3 +65,11 @@ if(NetworkUtils.hasEthernetCapability(context)) {
 //device has Ethernet network connectivity
 }
 ```
+
+
+Roadmaps:
+
+- network checks
+- internet checks
+- observe WIFI network states - enabled, disabled, connected SSID, list of available SSID
+- connnect to particular WIFI
