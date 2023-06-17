@@ -12,42 +12,56 @@ network capabilities:
 * Ethernet
 
 In most cases app needs to check internet availability. For that you can just use below code:
-
-`if(NetworkUtils.hasInternet(context)) {
+```
+if(NetworkUtils.hasInternet(context)) {
    //device has internet over WiFi or Cellular or Ethernet
-}`
+}
+```
 
-
-`if(NetworkUtils.hasInternetOverWifi(context)) {
+```
+if(NetworkUtils.hasInternetOverWifi(context)) {
 //device has internet over WiFi network
-}`
+}
+```
 
 
-`if(NetworkUtils.hasInternetOverCellular(context)) {
+```
+if(NetworkUtils.hasInternetOverCellular(context)) {
 //device has internet over Cellular network
-}`
+}
+```
 
-`if(NetworkUtils.hasInternetOverEthernet(context)) {
+```
+if(NetworkUtils.hasInternetOverEthernet(context)) {
 //device has internet over Ethernet network
-}`
+}
+```
 
 
 If you are interested in checking network connectivity rather than internet availability. Use below code:
 
-`if(NetworkUtils.hasAnyNetworkCapability(context)) {
+```
+if(NetworkUtils.hasAnyNetworkCapability(context)) {
 //device has WiFi or Cellular or Ethernet network connectivity
-}`
+}
+```
 
 
-`if(NetworkUtils.hasWifiCapability(context)) {
+```
+if(NetworkUtils.hasWifiCapability(context)) {
 //device has WiFi network connectivity
-}`
+}
+```
 
 
-`if(NetworkUtils.hasCellularCapability(context)) {
+```
+if(NetworkUtils.hasCellularCapability(context)) {
 //device has Cellular network connectivity
-}`
+}
+```
 
-`if(NetworkUtils.hasEthernetCapability(context)) {
+```
+if(NetworkUtils.hasEthernetCapability(context)) {
 //device has Ethernet network connectivity
-}`
+}
+```
