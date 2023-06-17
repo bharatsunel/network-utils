@@ -11,70 +11,23 @@ network capabilities:
 * Cellular
 * Ethernet
 
-Initialize sdk in application onCreate
+## Initialize sdk in application onCreate
+
 ```
 NetworkUtils.init(this)
 ```
 
-In most cases app needs to check internet availability. For that you can just use below code:
+## In most cases app needs to check internet availability. For that you can just use below code:
 ```
 if(NetworkUtils.hasInternet()) {
    //device has internet over WiFi or Cellular or Ethernet
 }
 ```
 
-```
-if(NetworkUtils.hasInternetOverWifi()) {
-//device has internet over WiFi network
-}
-```
-
+## If you are interested in checking network connectivity rather than internet availability. Use below code:
 
 ```
-if(NetworkUtils.hasInternetOverCellular()) {
-//device has internet over Cellular network
-}
-```
-
-```
-if(NetworkUtils.hasInternetOverEthernet()) {
-//device has internet over Ethernet network
-}
-```
-
-
-If you are interested in checking network connectivity rather than internet availability. Use below code:
-
-```
-if(NetworkUtils.hasNetwork) {
+if(NetworkUtils.hasNetwork()) {
 //device has WiFi or Cellular or Ethernet network connectivity
 }
 ```
-
-
-```
-if(NetworkUtils.hasWifiNetwork) {
-//device has WiFi network connectivity
-}
-```
-
-
-```
-if(NetworkUtils.hasCellularNetwork) {
-//device has Cellular network connectivity
-}
-```
-
-```
-if(NetworkUtils.hasEthernetNetwork) {
-//device has Ethernet network connectivity
-}
-```
-
-
-Roadmaps:
-
-- network checks
-- internet checks
-- observe WIFI network states - enabled, disabled, connected SSID, list of available SSID
-- connnect to particular WIFI
