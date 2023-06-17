@@ -4,59 +4,78 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
-object NetworkUtils : InternetReachability {
+import android.util.Log
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.IOException
+import java.net.HttpURLConnection
+import java.net.URL
 
-    private var networkObserver: NetworkObserver? = null
+
+object NetworkUtils : DefaultLifecycleObserver {
+
     private val networkState = NetworkState()
-    private var context: Context? = null
-
-    val hasNetwork =
-        networkState.isDefaultNetworkWifi || networkState.isDefaultNetworkCellular || networkState.isDefaultNetworkUnmetered
-    val hasWifiNetwork = networkState.isDefaultNetworkWifi
-    val hasCellularNetwork = networkState.isDefaultNetworkCellular
-    val hasEthernetNetwork = networkState.isDefaultNetworkEthernet
-
-    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
-        override fun onCapabilitiesChanged(
-            network: Network,
-            networkCapabilities: NetworkCapabilities
-        ) {
-            networkState.setDefaultNetwork(network, networkCapabilities)
-        }
-
-        override fun onLost(network: Network) {
-            networkState.setDefaultNetwork(null, null)
-        }
-    }
-
+    private var connectivityManager: ConnectivityManager? = null
+    private var networkCallback: ConnectivityManager.NetworkCallback? = null
     fun init(context: Context) {
-        this.context = context
-        val connectivityManager = context.getSystemService(ConnectivityManager::class.java)
-        connectivityManager.registerDefaultNetworkCallback(networkCallback)
+        connectivityManager = context.getSystemService(ConnectivityManager::class.java)
+        networkCallback = object :
+            ConnectivityManager.NetworkCallback() {
+            override fun onCapabilitiesChanged(
+                network: Network,
+                networkCapabilities: NetworkCapabilities
+            ) {
+                networkState.setDefaultNetwork(network, networkCapabilities)
+            }
+
+            override fun onLost(network: Network) {
+                networkState.setDefaultNetwork(null, null)
+            }
+        }
+        networkCallback?.let {
+            connectivityManager?.registerDefaultNetworkCallback(it)
+        }
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
 
-    fun observeDefaultNetwork(observer: NetworkObserver) {
-        networkObserver = observer
+    fun isDefaultNetworkCellular() = networkState.isDefaultNetworkCellular
+    fun isDefaultNetworkEthernet() = networkState.isDefaultNetworkEthernet
+
+    fun hasNetwork() =
+        networkState.isDefaultNetworkWifi || networkState.isDefaultNetworkCellular || networkState.isDefaultNetworkUnmetered
+
+    fun isDefaultNetworkWifi() = networkState.isDefaultNetworkWifi
+
+
+    suspend fun hasInternet(): Boolean {
+        if (!hasNetwork()) return false
+        return withContext(Dispatchers.IO) {
+            try {
+                val connection = URL("https://www.google.com").openConnection() as HttpURLConnection
+                connection.setRequestProperty("User-Agent", "ConnectionTest")
+                connection.setRequestProperty("Connection", "close")
+                connection.connectTimeout = 1000
+                connection.connect()
+                Log.d("NetworkUtils", "hasInternetConnected: ${(connection.responseCode == 200)}")
+                return@withContext (connection.responseCode == 200)
+            } catch (e: IOException) {
+                Log.e("NetworkUtils", "Error checking internet connection", e)
+                false
+            }
+        }
     }
 
-    override fun hasInternet(): Boolean {
-        if (!hasNetwork) return false
-        TODO("Not yet implemented")
+    private fun release() {
+        connectivityManager?.unregisterNetworkCallback(networkCallback!!)
+        connectivityManager = null
+        networkCallback = null
+        ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
     }
 
-    override fun hasInternetOverWifi(): Boolean {
-        if (!hasWifiNetwork) return false
-        TODO("Not yet implemented")
+    override fun onStop(owner: LifecycleOwner) {
+        release()
     }
-
-    override fun hasInternetOverCellular(): Boolean {
-        if (!hasCellularNetwork) return false
-        TODO("Not yet implemented")
-    }
-
-    override fun hasInternetOverEthernet(): Boolean {
-        if (!hasEthernetNetwork) return false
-        TODO("Not yet implemented")
-    }
-
 }

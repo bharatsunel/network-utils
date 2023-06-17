@@ -51,10 +51,13 @@ android {
 }
 
 dependencies {
-
     implementation(project(":network-utils"))
     implementation(libs.core.ktx)
+    implementation(libs.lifecycle.common)
+    implementation(libs.lifecycle.process)
+    implementation(libs.lifecycle.runtime)
     implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
     implementation(libs.ui)

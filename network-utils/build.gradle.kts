@@ -34,7 +34,9 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.lifecycle.common)
+    implementation(libs.lifecycle.process)
+    implementation(libs.lifecycle.runtime)
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
