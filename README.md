@@ -11,28 +11,33 @@ network capabilities:
 * Cellular
 * Ethernet
 
+Initialize sdk in application onCreate
+```
+NetworkUtils.init(this)
+```
+
 In most cases app needs to check internet availability. For that you can just use below code:
 ```
-if(NetworkUtils.hasInternet(context)) {
+if(NetworkUtils.hasInternet()) {
    //device has internet over WiFi or Cellular or Ethernet
 }
 ```
 
 ```
-if(NetworkUtils.hasInternetOverWifi(context)) {
+if(NetworkUtils.hasInternetOverWifi()) {
 //device has internet over WiFi network
 }
 ```
 
 
 ```
-if(NetworkUtils.hasInternetOverCellular(context)) {
+if(NetworkUtils.hasInternetOverCellular()) {
 //device has internet over Cellular network
 }
 ```
 
 ```
-if(NetworkUtils.hasInternetOverEthernet(context)) {
+if(NetworkUtils.hasInternetOverEthernet()) {
 //device has internet over Ethernet network
 }
 ```
@@ -41,27 +46,27 @@ if(NetworkUtils.hasInternetOverEthernet(context)) {
 If you are interested in checking network connectivity rather than internet availability. Use below code:
 
 ```
-if(NetworkUtils.hasAnyNetworkCapability(context)) {
+if(NetworkUtils.hasNetwork) {
 //device has WiFi or Cellular or Ethernet network connectivity
 }
 ```
 
 
 ```
-if(NetworkUtils.hasWifiCapability(context)) {
+if(NetworkUtils.hasWifiNetwork) {
 //device has WiFi network connectivity
 }
 ```
 
 
 ```
-if(NetworkUtils.hasCellularCapability(context)) {
+if(NetworkUtils.hasCellularNetwork) {
 //device has Cellular network connectivity
 }
 ```
 
 ```
-if(NetworkUtils.hasEthernetCapability(context)) {
+if(NetworkUtils.hasEthernetNetwork) {
 //device has Ethernet network connectivity
 }
 ```

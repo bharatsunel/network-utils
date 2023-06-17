@@ -2,63 +2,60 @@ package com.bharatsunel.networkutils
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.Network
 import android.net.NetworkCapabilities
+object NetworkUtils : InternetReachability {
 
-object NetworkUtils : NetworkCapability, InternetReachability {
+    private var networkObserver: NetworkObserver? = null
+    private val networkState = NetworkState()
+    private var context: Context? = null
 
-    private fun getNetworkCapabilities(context: Context): NetworkCapabilities? {
+    val hasNetwork =
+        networkState.isDefaultNetworkWifi || networkState.isDefaultNetworkCellular || networkState.isDefaultNetworkUnmetered
+    val hasWifiNetwork = networkState.isDefaultNetworkWifi
+    val hasCellularNetwork = networkState.isDefaultNetworkCellular
+    val hasEthernetNetwork = networkState.isDefaultNetworkEthernet
+
+    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
+        override fun onCapabilitiesChanged(
+            network: Network,
+            networkCapabilities: NetworkCapabilities
+        ) {
+            networkState.setDefaultNetwork(network, networkCapabilities)
+        }
+
+        override fun onLost(network: Network) {
+            networkState.setDefaultNetwork(null, null)
+        }
+    }
+
+    fun init(context: Context) {
+        this.context = context
         val connectivityManager = context.getSystemService(ConnectivityManager::class.java)
-        val currentNetwork = connectivityManager.activeNetwork
-        return connectivityManager.getNetworkCapabilities(currentNetwork)
+        connectivityManager.registerDefaultNetworkCallback(networkCallback)
     }
 
-    override fun hasAnyNetworkCapability(context: Context): Boolean {
-        val caps = getNetworkCapabilities(context) ?: return false
-        return when {
-            caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-            caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-            caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-            else -> false
-        }
+    fun observeDefaultNetwork(observer: NetworkObserver) {
+        networkObserver = observer
     }
 
-    override fun hasWifiCapability(context: Context): Boolean {
-        getNetworkCapabilities(context)?.let {
-            return it.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-        }
-        return false
-    }
-
-    override fun hasCellularCapability(context: Context): Boolean {
-        getNetworkCapabilities(context)?.let {
-            return it.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-        }
-        return false
-    }
-
-    override fun hasEthernetCapability(context: Context): Boolean {
-        getNetworkCapabilities(context)?.let {
-            return it.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
-        }
-        return false
-    }
-
-    override fun hasInternet(context: Context): Boolean {
-        if (!hasAnyNetworkCapability(context)) return false
+    override fun hasInternet(): Boolean {
+        if (!hasNetwork) return false
         TODO("Not yet implemented")
     }
 
-    override fun hasInternetOverWifi(context: Context): Boolean {
-        if (!hasWifiCapability(context)) return false
+    override fun hasInternetOverWifi(): Boolean {
+        if (!hasWifiNetwork) return false
         TODO("Not yet implemented")
     }
 
-    override fun hasInternetOverCellular(context: Context): Boolean {
+    override fun hasInternetOverCellular(): Boolean {
+        if (!hasCellularNetwork) return false
         TODO("Not yet implemented")
     }
 
-    override fun hasInternetOverEthernet(context: Context): Boolean {
-        if (!hasEthernetCapability(context)) return false
+    override fun hasInternetOverEthernet(): Boolean {
+        if (!hasEthernetNetwork) return false
         TODO("Not yet implemented")
     }
 

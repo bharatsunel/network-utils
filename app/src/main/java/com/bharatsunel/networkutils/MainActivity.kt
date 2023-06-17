@@ -1,5 +1,6 @@
 package com.bharatsunel.networkutils
 
+import android.net.Network
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -20,8 +21,12 @@ import androidx.compose.ui.unit.dp
 import com.bharatsunel.networkutils.ui.theme.NetworkUtilsTheme
 
 class MainActivity : ComponentActivity() {
+
+    private val TAG = "MainActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //init network lib
+        NetworkUtils.init(this)
         setContent {
             NetworkUtilsTheme {
                 // A surface container using the 'background' color from the theme
@@ -30,11 +35,24 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     MainContent("there") {
-                        Log.d("MainActivity", "Has Wifi: ${NetworkUtils.hasWifiCapability(this@MainActivity)}")
+                        Log.d(
+                            "MainActivity",
+                            "Has Wifi: ${NetworkUtils.hasWifiNetwork}"
+                        )
                     }
                 }
             }
         }
+
+        NetworkUtils.observeDefaultNetwork(object : NetworkObserver {
+            override fun onLost(network: Network) {
+                Log.d(TAG, "onLost: $network")
+            }
+
+            override fun onNetworkChanged(network: Network, networkType: NetworkType) {
+                Log.d(TAG, "onNetworkChanged: $network type: $networkType")
+            }
+        })
     }
 }
 
