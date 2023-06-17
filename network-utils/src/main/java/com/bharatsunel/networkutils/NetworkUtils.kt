@@ -53,6 +53,10 @@ object NetworkUtils : NetworkCapability, InternetReachability {
         TODO("Not yet implemented")
     }
 
+    override fun hasInternetOverCellular(context: Context): Boolean {
+        TODO("Not yet implemented")
+    }
+
     override fun hasInternetOverEthernet(context: Context): Boolean {
         if (!hasEthernetCapability(context)) return false
         TODO("Not yet implemented")

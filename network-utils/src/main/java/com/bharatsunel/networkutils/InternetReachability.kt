@@ -5,5 +5,6 @@ import android.content.Context
 interface InternetReachability {
     fun hasInternet(context: Context): Boolean
     fun hasInternetOverWifi(context: Context): Boolean
+    fun hasInternetOverCellular(context: Context): Boolean
     fun hasInternetOverEthernet(context: Context): Boolean
 }
