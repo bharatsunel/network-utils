@@ -42,10 +42,10 @@ object NetworkUtils : DefaultLifecycleObserver {
     }
 
     fun isDefaultNetworkCellular() = networkState.isDefaultNetworkCellular
-    fun isDefaultNetworkEthernet() = networkState.isDefaultNetworkEthernet
+    fun isDefaultNetworkBluetooth() = networkState.isDefaultNetworkBluetooth
 
     fun hasNetwork() =
-        networkState.isDefaultNetworkWifi || networkState.isDefaultNetworkCellular || networkState.isDefaultNetworkUnmetered
+        networkState.isDefaultNetworkWifi || networkState.isDefaultNetworkCellular || networkState.isDefaultNetworkUnmetered || networkState.isDefaultNetworkBluetooth
 
     fun isDefaultNetworkWifi() = networkState.isDefaultNetworkWifi
 
@@ -57,7 +57,7 @@ object NetworkUtils : DefaultLifecycleObserver {
                 val connection = URL("https://www.google.com").openConnection() as HttpURLConnection
                 connection.setRequestProperty("User-Agent", "ConnectionTest")
                 connection.setRequestProperty("Connection", "close")
-                connection.connectTimeout = 1000
+                connection.connectTimeout = 2000
                 connection.connect()
                 Log.d("NetworkUtils", "hasInternetConnected: ${(connection.responseCode == 200)}")
                 return@withContext (connection.responseCode == 200)

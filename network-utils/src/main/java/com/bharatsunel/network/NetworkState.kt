@@ -3,6 +3,7 @@ package com.bharatsunel.network
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkCapabilities.NET_CAPABILITY_NOT_METERED
+import android.net.NetworkCapabilities.TRANSPORT_BLUETOOTH
 import android.net.NetworkCapabilities.TRANSPORT_CELLULAR
 import android.net.NetworkCapabilities.TRANSPORT_ETHERNET
 import android.net.NetworkCapabilities.TRANSPORT_WIFI
@@ -24,9 +25,9 @@ class NetworkState {
             defaultCapabilities?.hasTransport(TRANSPORT_CELLULAR) ?: false
         }
 
-    val isDefaultNetworkEthernet
+    val isDefaultNetworkBluetooth
         get() = synchronized(this) {
-            defaultCapabilities?.hasTransport(TRANSPORT_ETHERNET) ?: false
+            defaultCapabilities?.hasTransport(TRANSPORT_BLUETOOTH) ?: false
         }
 
     val isDefaultNetworkUnmetered
