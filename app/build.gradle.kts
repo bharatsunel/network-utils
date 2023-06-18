@@ -51,7 +51,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":network-utils"))
+    implementation(libs.network.utils)
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.common)
     implementation(libs.lifecycle.process)
