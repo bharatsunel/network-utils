@@ -1,4 +1,4 @@
-package com.bharatsunel.networkutils
+package com.bharatsunel.network
 
 import android.net.Network
 import android.net.NetworkCapabilities

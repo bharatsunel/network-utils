@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.bharatsunel.network_utils"
+    namespace = "com.bharatsunel.network"
     compileSdk = 33
 
     defaultConfig {

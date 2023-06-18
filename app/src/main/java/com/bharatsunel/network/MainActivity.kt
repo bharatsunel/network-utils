@@ -1,4 +1,4 @@
-package com.bharatsunel.networkutils
+package com.bharatsunel.network
 
 import android.os.Bundle
 import android.util.Log
@@ -19,7 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.bharatsunel.networkutils.ui.theme.NetworkUtilsTheme
+import com.bharatsunel.network.NetworkUtils
+import com.bharatsunel.network.ui.theme.NetworkUtilsTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

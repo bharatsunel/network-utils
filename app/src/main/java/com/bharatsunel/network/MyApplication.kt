@@ -1,7 +1,8 @@
-package com.bharatsunel.networkutils
+package com.bharatsunel.network
 
 import android.app.Application
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.bharatsunel.network.NetworkUtils
 
 class MyApplication : Application() {
     override fun onCreate() {

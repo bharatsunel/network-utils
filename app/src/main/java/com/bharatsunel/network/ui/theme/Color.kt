@@ -1,4 +1,4 @@
-package com.bharatsunel.networkutils.ui.theme
+package com.bharatsunel.network.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

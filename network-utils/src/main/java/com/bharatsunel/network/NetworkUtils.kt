@@ -1,4 +1,4 @@
-package com.bharatsunel.networkutils
+package com.bharatsunel.network
 
 import android.content.Context
 import android.net.ConnectivityManager
